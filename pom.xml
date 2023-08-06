@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.ruri</groupId>
     <artifactId>PictureMove</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>PictureMove</name>
     <description>PictureMove</description>
     <properties>
