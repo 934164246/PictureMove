@@ -1,6 +1,8 @@
 server:
-  port: 8082
+  port: 11451
 spring:
+  application:
+    name: picture-move
   mvc:
     servlet:
       load-on-startup: 1

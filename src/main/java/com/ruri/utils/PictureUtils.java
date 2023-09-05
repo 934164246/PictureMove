@@ -5,10 +5,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * 图片工具类
+ *
+ * @author gokoururi
+ */
 public class PictureUtils {
 
+    /**
+     * 所有文件路径都临时存在于此
+     */
     public static final ArrayList<File> LIST=new ArrayList<>(1600);
 
     public static AtomicInteger index =new AtomicInteger(0);
@@ -24,6 +35,38 @@ public class PictureUtils {
             String type = split[split.length - 1].toLowerCase();
             if (!temp.isDirectory() && ("jpg".equals(type) || "png".equals(type) || "jpeg".equals(type))) {
                 LIST.add(temp);
+            }
+        }
+    }
+
+    /**
+     * 重制文件list
+     */
+    public static void resetFileList() {
+        LIST.clear();
+
+        addFile();
+    }
+
+    /**
+     * 读取文件夹中所有的图片
+     */
+    public static void addFile() {
+        List<String> fileFolder = SystemBaseInfo.getFileFolder();
+        Set<String> fileFormat = new HashSet<>(SystemBaseInfo.getFileFormat());
+
+        for (String folderStr : fileFolder) {
+            File folder = new File(folderStr);
+
+            File[] files = folder.listFiles();
+
+            for (File file : files) {
+                String[] split = file.getName().split("\\.");
+
+                String fileType = split[split.length - 1].toLowerCase();
+                if (!file.isDirectory() && fileFormat.contains(fileType)) {
+                    LIST.add(file);
+                }
             }
         }
     }
