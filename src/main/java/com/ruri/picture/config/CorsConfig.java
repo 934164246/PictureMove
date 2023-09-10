@@ -1,4 +1,4 @@
-package com.ruri.config;
+package com.ruri.picture.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

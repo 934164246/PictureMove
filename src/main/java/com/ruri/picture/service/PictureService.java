@@ -1,8 +1,8 @@
-package com.ruri.service;
+package com.ruri.picture.service;
 
-import com.ruri.dto.PathDTO;
-import com.ruri.dto.PictureMoveDTO;
-import com.ruri.vo.PictureInfoVO;
+import com.ruri.picture.dto.PathDTO;
+import com.ruri.picture.dto.PictureMoveDTO;
+import com.ruri.picture.vo.PictureInfoVO;
 
 import java.util.List;
 
@@ -24,6 +24,4 @@ public interface PictureService {
     List<PathDTO> getPictureTargetPath();
 
     PictureInfoVO getPictureInfo();
-
-    boolean movePicture(Integer type);
 }

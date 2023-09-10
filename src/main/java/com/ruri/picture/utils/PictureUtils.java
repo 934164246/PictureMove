@@ -1,4 +1,8 @@
-package com.ruri.utils;
+package com.ruri.picture.utils;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,24 +24,9 @@ public class PictureUtils {
     /**
      * 所有文件路径都临时存在于此
      */
-    public static final ArrayList<File> LIST=new ArrayList<>(1600);
+    public static final ArrayList<File> LIST = new ArrayList<>(1600);
 
-    public static AtomicInteger index =new AtomicInteger(0);
-
-    static {
-        File file=new File("D:\\Saved Pictures");
-
-        File[] files = file.listFiles();
-
-        for (File temp : files) {
-            String[] split = temp.getName().split("\\.");
-
-            String type = split[split.length - 1].toLowerCase();
-            if (!temp.isDirectory() && ("jpg".equals(type) || "png".equals(type) || "jpeg".equals(type))) {
-                LIST.add(temp);
-            }
-        }
-    }
+    public static AtomicInteger index = new AtomicInteger(0);
 
     /**
      * 重制文件list
@@ -52,8 +41,8 @@ public class PictureUtils {
      * 读取文件夹中所有的图片
      */
     public static void addFile() {
-        List<String> fileFolder = SystemBaseInfo.getFileFolder();
-        Set<String> fileFormat = new HashSet<>(SystemBaseInfo.getFileFormat());
+        List<String> fileFolder = SystemInfoUtils.getFileFolder();
+        Set<String> fileFormat = new HashSet<>(SystemInfoUtils.getFileFormat());
 
         for (String folderStr : fileFolder) {
             File folder = new File(folderStr);
@@ -78,7 +67,7 @@ public class PictureUtils {
     public static File getPrev() {
         int i = index.get();
 
-        if( i != 0) {
+        if (i != 0) {
             i--;
             index.set(i);
         }
@@ -95,7 +84,7 @@ public class PictureUtils {
             InputStream inputStream = Files.newInputStream(file.toPath());
 
 
-            byte[] data=new byte[(int)file.length()];
+            byte[] data = new byte[(int) file.length()];
             inputStream.read(data);
 
             return data;
@@ -110,5 +99,22 @@ public class PictureUtils {
 
     public static void changeCurrentPicture(File file) {
         LIST.set(index.get(), file);
+    }
+
+    /**
+     * 把文件信息打包
+     * @param fileName    文件名称
+     * @param pictureByte 图片字节
+     * @return control返回体
+     */
+    public static ResponseEntity<byte[]> wrapPictureByte(String fileName, byte[] pictureByte) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName);
+
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(pictureByte);
     }
 }

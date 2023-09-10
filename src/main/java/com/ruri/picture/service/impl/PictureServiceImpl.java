@@ -1,29 +1,27 @@
-package com.ruri.service.impl;
+package com.ruri.picture.service.impl;
 
-import com.ruri.dto.PathDTO;
-import com.ruri.dto.PictureMoveDTO;
-import com.ruri.service.PictureService;
-import com.ruri.utils.PathEnum;
-import com.ruri.utils.PictureUtils;
-import com.ruri.vo.PictureInfoVO;
-import lombok.extern.slf4j.Slf4j;
+import com.ruri.picture.dto.PathDTO;
+import com.ruri.picture.dto.PictureMoveDTO;
+import com.ruri.picture.info.PathInfo;
+import com.ruri.picture.service.PictureService;
+import com.ruri.picture.utils.PictureUtils;
+import com.ruri.picture.utils.SystemInfoUtils;
+import com.ruri.picture.vo.PictureInfoVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author GokouRuri
  */
-@Slf4j
 @Service("pictureService")
 public class PictureServiceImpl implements PictureService {
+
+    private final static Logger logger = LoggerFactory.getLogger(PictureServiceImpl.class);
 
 
     @Override
@@ -69,11 +67,11 @@ public class PictureServiceImpl implements PictureService {
     public List<PathDTO> getPictureTargetPath() {
         List<PathDTO> list = new ArrayList<>();
 
-        for (PathEnum value : PathEnum.values()) {
+        for (PathInfo value : SystemInfoUtils.getFilePath()) {
             PathDTO dto = new PathDTO();
 
             dto.setKey(value.getName());
-            dto.setValue(String.valueOf(value.getIndex()));
+            dto.setValue(String.valueOf(value.getPath()));
 
             list.add(dto);
         }
@@ -91,28 +89,5 @@ public class PictureServiceImpl implements PictureService {
         vo.setSize(PictureUtils.convertBytesToMB(file.length()));
 
         return vo;
-    }
-
-    @Override
-    public boolean movePicture(Integer type) {
-        PathEnum path = PathEnum.getPath(type);
-
-        File nowFile = PictureUtils.getNow();
-        File targetFile = new File(path.getPath() + nowFile.getName());
-
-        // 目标文件是否存在
-        if(targetFile.exists()) {
-            return false;
-        }
-
-        if (nowFile.renameTo(targetFile)) {
-            PictureUtils.changeCurrentPicture(targetFile);
-
-            log.info("【{}】文件移动到【{}】", nowFile.getName(), targetFile.getPath());
-            return true;
-        } else {
-            log.error("【{}】文件移动失败", nowFile.getName());
-            return false;
-        }
     }
 }

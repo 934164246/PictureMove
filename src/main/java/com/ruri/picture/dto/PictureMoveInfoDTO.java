@@ -1,4 +1,4 @@
-package com.ruri.dto;
+package com.ruri.picture.dto;
 
 
 /**

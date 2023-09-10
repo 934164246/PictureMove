@@ -1,5 +1,7 @@
 server:
   port: 11451
+  servlet:
+    context-path: /picture
 spring:
   application:
     name: picture-move

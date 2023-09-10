@@ -1,6 +1,6 @@
-package com.ruri.service;
+package com.ruri.picture.service;
 
-import com.ruri.dto.PictureMoveInfoDTO;
+import com.ruri.picture.dto.PictureMoveInfoDTO;
 
 /**
  * 图片移动服务类

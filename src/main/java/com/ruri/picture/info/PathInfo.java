@@ -1,4 +1,4 @@
-package com.ruri.info;
+package com.ruri.picture.info;
 
 
 /**

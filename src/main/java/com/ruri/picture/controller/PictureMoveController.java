@@ -1,8 +1,8 @@
-package com.ruri.controller;
+package com.ruri.picture.controller;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.ruri.dto.PictureMoveInfoDTO;
-import com.ruri.service.PictureMoveService;
+import com.ruri.picture.dto.PictureMoveInfoDTO;
+import com.ruri.picture.service.PictureMoveService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +14,7 @@ import javax.annotation.Resource;
  * @author gokoururi
  */
 @RestController
-@RequestMapping("picture")
+@RequestMapping("operate")
 public class PictureMoveController {
 
     @Resource(name = "pictureMoveService")
