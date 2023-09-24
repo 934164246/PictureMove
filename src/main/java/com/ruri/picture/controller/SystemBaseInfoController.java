@@ -3,12 +3,12 @@ package com.ruri.picture.controller;
 import com.ruri.picture.dto.PathDTO;
 import com.ruri.picture.info.PathInfo;
 import com.ruri.picture.service.PictureService;
-import com.ruri.picture.utils.PictureUtils;
 import com.ruri.picture.utils.SystemInfoUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.util.List;
 
 /**
@@ -28,7 +28,16 @@ public class SystemBaseInfoController {
             return false;
         }
 
-        // 2. 设置图片文件夹
+        // 2. 判断路径是否为文件夹
+        for (String folderPath : folderList) {
+            File file = new File(folderPath);
+
+            if (!file.isDirectory()) {
+                return false;
+            }
+        }
+
+        // 3. 设置图片文件夹
         SystemInfoUtils.setFileFolder(folderList);
 
         return true;
@@ -46,7 +55,16 @@ public class SystemBaseInfoController {
             return false;
         }
 
-        // 2. 设置图片移动文件夹
+        // 2. 判断路径是否为文件夹
+        for (PathInfo pathInfo : pathInfoList) {
+            File file = new File(pathInfo.getPath());
+
+            if (!file.isDirectory()) {
+                return false;
+            }
+        }
+
+        // 3. 设置图片移动文件夹
         SystemInfoUtils.setFilePath(pathInfoList);
 
         return true;

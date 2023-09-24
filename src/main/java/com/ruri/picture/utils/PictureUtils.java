@@ -3,6 +3,7 @@ package com.ruri.picture.utils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -61,7 +62,11 @@ public class PictureUtils {
     }
 
     public static File getNow() {
-        return LIST.get(index.get());
+        if (CollectionUtils.isEmpty(LIST)) {
+            return new File("");
+        } else {
+            return LIST.get(index.get());
+        }
     }
 
     public static File getPrev() {
@@ -89,7 +94,7 @@ public class PictureUtils {
 
             return data;
         } catch (IOException e) {
-            return null;
+            return new byte[0];
         }
     }
 

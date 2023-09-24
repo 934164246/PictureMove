@@ -25,4 +25,12 @@ public class PathInfo {
     public void setPath(String path) {
         this.path = path;
     }
+
+    @Override
+    public String toString() {
+        return "PathInfo{" +
+                "name='" + name + '\'' +
+                ", path='" + path + '\'' +
+                '}';
+    }
 }

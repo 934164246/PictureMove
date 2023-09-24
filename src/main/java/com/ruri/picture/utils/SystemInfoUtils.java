@@ -2,8 +2,16 @@ package com.ruri.picture.utils;
 
 
 import com.ruri.picture.info.PathInfo;
+import com.ruri.picture.info.SystemInfoModel;
 
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -45,6 +53,9 @@ public final class SystemInfoUtils {
 
     public static void setFileFolder(List<String> fileFolder) {
         SystemInfoUtils.fileFolder = fileFolder;
+
+        // 保存数据
+        SystemInfoPersistenceUtils.write(SystemInfoUtils.getModelInfo());
     }
 
     public static List<PathInfo> getFilePath() {
@@ -63,6 +74,9 @@ public final class SystemInfoUtils {
         for (PathInfo pathInfo : filePath) {
             FILE_PATH_MAP.put(pathInfo.getPath(), pathInfo);
         }
+
+        // 保存数据
+        SystemInfoPersistenceUtils.write(SystemInfoUtils.getModelInfo());
     }
 
     public static boolean hasFileFormat(String name) {
@@ -81,9 +95,27 @@ public final class SystemInfoUtils {
 
         FILE_FORMAT_SET.clear();
         FILE_FORMAT_SET.addAll(fileFormat);
+
+        // 保存数据
+        SystemInfoPersistenceUtils.write(SystemInfoUtils.getModelInfo());
     }
 
     public static List<String> getTotalPictureFormat() {
         return new ArrayList<>(FILE_FORMAT_TOTAL);
+    }
+
+    /**
+     * 获得model info，用于写入文件封装用
+     *
+     * @return systemInfoModel
+     */
+    public static SystemInfoModel getModelInfo() {
+        SystemInfoModel model = new SystemInfoModel();
+
+        model.setFileFolder(fileFolder);
+        model.setFilePath(filePath);
+        model.setFileFormat(fileFormat);
+
+        return model;
     }
 }
